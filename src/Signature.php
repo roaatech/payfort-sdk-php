@@ -6,7 +6,7 @@
  * Time: 6:18 PM
  */
 
-namespace ItvisionSy\Payfort;
+namespace ItvisionSy\PayFort;
 
 class Signature
 {

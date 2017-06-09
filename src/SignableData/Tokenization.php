@@ -6,7 +6,7 @@
  * Time: 6:22 PM
  */
 
-namespace ItvisionSy\Payfort\SignableData;
+namespace ItvisionSy\PayFort\SignableData;
 
 class Tokenization
 {
