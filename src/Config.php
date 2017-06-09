@@ -2,12 +2,19 @@
 
 namespace ItvisionSy\PayFort;
 
-use Exception;
-use ItvisionSy\PayFort;
-
 /**
  * Class Config
  * @package ItvisionSy\Payment\PayFort
+ * @property string sandbox
+ * @property string merchantIdentifier
+ * @property string accessCode
+ * @property string language
+ * @property string shaType
+ * @property string shaRequestPhrase
+ * @property string shaResponsePhrase
+ * @method string sandbox(boolean $setToValue = null)
+ * @method string merchantIdentifier(boolean $setToValue = null)
+ * @method string shaType(boolean $setToValue = null)
  */
 class Config
 {
@@ -53,21 +60,15 @@ class Config
      * @param array|null $set
      * @return array
      */
-    protected static function defaults(array $set = null)
+    public static function defaults(array $set = null)
     {
-        if ($set) {
-            static::$defaults = static::standardize($set);
+        if ($set !== null) {
+            $config = static::standardize($set);
+            foreach ($config as $key => $value) {
+                static::setDefault($key, $value);
+            }
         }
         return static::$defaults;
-    }
-
-    /**
-     * @param array $config
-     * @return array
-     */
-    protected static function standardize(array $config)
-    {
-        return array_intersect_assoc($config, static::defaults()) + static::defaults();
     }
 
     /**
@@ -76,15 +77,41 @@ class Config
      */
     public function config(array $set = null)
     {
-        if ($set) {
-            $this->config = self::standardize($set);
+        if ($set !== null) {
+            $config = self::standardize($set);
+            foreach ($config as $key => $value) {
+                $this->set($key, $value);
+            }
         }
         return $this->config;
     }
 
-    protected static function underscore($key)
+    /**
+     * @param array $config
+     * @return array
+     */
+    protected static function standardize(array $config)
     {
-        return preg_replace("/[^a-z]+/", "_", strtolower(preg_replace("/([a-z])([A-Z]+[a-z])/", "\\1 \\2", $key)));
+        return array_intersect_key($config, static::defaults()) + static::defaults();
+    }
+
+    /**
+     * @param $key
+     * @param string $char
+     * @return string
+     */
+    public static function underscore($key, $char = "_")
+    {
+        return preg_replace("/[^a-z]+/", $char, strtolower(preg_replace("/([a-z])([A-Z]+[a-z])/", "\\1 \\2", $key)));
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    public static function camelCase($key)
+    {
+        return str_replace(" ", "", ucwords(static::underscore($key, " ")));
     }
 
     /**
@@ -105,27 +132,132 @@ class Config
         return new static($config);
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return array
+     */
     public function set($name, $value)
     {
-
+        $key = static::underscore($name);
+        $config = $this->config();
+        if (array_key_exists($key, static::defaults())) {
+            $validationMethod = "validate" . static::camelCase($key);
+            if (method_exists(static::class, $validationMethod)) {
+                $value = static::$validationMethod($value);
+            }
+            $config[$key] = $value;
+            $this->config = $config;
+        }
+        return $config;
     }
 
+    /**
+     * @param $name
+     * @return mixed|null
+     */
     public function get($name)
     {
-
+        $key = static::underscore($name);
+        if (array_key_exists($key, $this->config())) {
+            return $this->config()[$key];
+        }
+        return null;
     }
 
-    public static function setStatic($name, $value)
+    /**
+     * @param $name
+     * @param $value
+     * @return array
+     */
+    public static function setDefault($name, $value)
     {
-
+        $key = static::underscore($name);
+        $defaults = static::defaults();
+        if (array_key_exists($key, $defaults)) {
+            $validationMethod = "validate" . static::camelCase($key);
+            if (method_exists(static::class, $validationMethod)) {
+                $value = static::$validationMethod($value);
+            }
+            $defaults[$key] = $value;
+            static::$defaults = $defaults;
+        }
+        return $defaults;
     }
 
-    public static function getStatic($name)
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public static function getDefault($name)
     {
         $key = static::underscore($name);
         if (array_key_exists($key, static::defaults())) {
             return static::defaults()[$key];
         }
+        return null;
+    }
+
+    /**
+     * @return bool
+     * @throws Exceptions\InvalidConfigException
+     */
+    public function validate()
+    {
+        $valid = static::validateArrayKeysSet($this->config());
+        if ($valid !== true) {
+            throw new Exceptions\InvalidConfigException("Config key {$valid} is not set");
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws Exceptions\InvalidConfigException
+     */
+    public static function validateDefaults()
+    {
+        $valid = static::validateArrayKeysSet(static::defaults());
+        if ($valid !== true) {
+            throw new Exceptions\InvalidConfigException("Default config key {$valid} is not set");
+        }
+        return true;
+    }
+
+    /**
+     * @param array $array
+     * @return bool|int|string
+     */
+    protected static function validateArrayKeysSet(array $array)
+    {
+        foreach ($array as $key => $value) {
+            if (!$value || empty($value) || !isset($value)) {
+                return $key;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param $shaType
+     * @return mixed
+     */
+    protected static function validateShaType($shaType)
+    {
+        static $shaTypes = [self::SHA_TYPE_SHA256, self::SHA_TYPE_SHA128, self::SHA_TYPE_SHA512];
+        if (array_search($shaType, $shaTypes) === false) {
+            throw new Exceptions\InvalidConfigException("SHA type should be one of " . join(", ", $shaTypes));
+        }
+        return $shaType;
+    }
+
+    protected static function validateLanguage($language)
+    {
+        static $languages = [self::LANG_EN, self::LANG_AR];
+        if (array_search($language, $languages) === false) {
+            throw new Exceptions\InvalidConfigException("Language should be one of " . join(", ", $languages));
+        }
+        return $language;
     }
 
     public function __set($name, $value)
@@ -145,7 +277,7 @@ class Config
 
     public static function __callStatic($name, $arguments)
     {
-        return count($arguments) == 1 ? static::setStatic($name, $arguments[0]) : static::getStatic($name);
+        return count($arguments) == 1 ? static::setDefault($name, $arguments[0]) : static::getDefault($name);
     }
 
     public function __invoke()
