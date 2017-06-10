@@ -5,16 +5,20 @@ namespace ItvisionSy\PayFort;
 /**
  * Class Config
  * @package ItvisionSy\Payment\PayFort
- * @property string sandbox
+ * @property boolean sandbox
  * @property string merchantIdentifier
  * @property string accessCode
  * @property string language
  * @property string shaType
  * @property string shaRequestPhrase
  * @property string shaResponsePhrase
- * @method string sandbox(boolean $setToValue = null)
- * @method string merchantIdentifier(boolean $setToValue = null)
- * @method string shaType(boolean $setToValue = null)
+ * @method boolean sandbox(boolean $setToValue = null)
+ * @method string merchantIdentifier(string $setToValue = null)
+ * @method string accessCode(string $setToValue = null)
+ * @method string language(string $setToValue = null)
+ * @method string shaType(string $setToValue = null)
+ * @method string shaRequestPhrase(string $setToValue = null)
+ * @method string shaResponsePhrase(string $setToValue = null)
  */
 class Config
 {
@@ -251,6 +255,10 @@ class Config
         return $shaType;
     }
 
+    /**
+     * @param $language
+     * @return string
+     */
     protected static function validateLanguage($language)
     {
         static $languages = [self::LANG_EN, self::LANG_AR];
@@ -258,6 +266,15 @@ class Config
             throw new Exceptions\InvalidConfigException("Language should be one of " . join(", ", $languages));
         }
         return $language;
+    }
+
+    /**
+     * @param $sandbox
+     * @return bool
+     */
+    protected static function validateSandbox($sandbox)
+    {
+        return !!$sandbox;
     }
 
     public function __set($name, $value)
