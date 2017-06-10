@@ -33,15 +33,13 @@ class Tokenization extends Operation
         $this->returnUrl = $returnUrl;
     }
 
+    /**
+     * @return array
+     */
     public function sign()
     {
         $data = $this->payfortEntries();
         return Signature::forRequest($data, $this->config());
-    }
-
-    public function additionalFormFields()
-    {
-        return $this->sign();
     }
 
     /**
@@ -66,4 +64,5 @@ class Tokenization extends Operation
         }
         return $entries;
     }
+    
 }
