@@ -56,12 +56,7 @@ abstract class Operation
     /**
      * @return string
      */
-    public function payfortURL()
-    {
-        return $this->config->sandbox
-            ? "https://sbpaymentservices.payfort.com/FortAPI/paymentApi"
-            : "https://paymentservices.payfort.com/FortAPI/paymentApi";
-    }
+    abstract public function payfortURL();
 
     public function __get($property)
     {

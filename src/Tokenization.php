@@ -64,5 +64,12 @@ class Tokenization extends Operation
         }
         return $entries;
     }
-    
+
+    public function payfortURL()
+    {
+        return $this->config->sandbox
+            ? "https://sbcheckout.payfort.com/FortAPI/paymentPage"
+            : "https://checkout.payfort.com/FortAPI/paymentPage";
+    }
+
 }
