@@ -14,5 +14,4 @@ class Purchase extends PayfortResponse
 {
 
 
-
 }

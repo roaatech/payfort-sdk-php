@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Muhannad Shelleh <muhannad.shelleh@live.com>
@@ -9,14 +10,12 @@
 namespace ItvisionSy\PayFort\Operations\Requests;
 
 use ItvisionSy\PayFort\AmountDecimals;
-use ItvisionSy\PayFort\Common;
 use ItvisionSy\PayFort\ServiceBasedOperation;
-use ItvisionSy\PayFort\Signature;
 
 /**
  * Class Purchase
  * @package ItvisionSy\PayFort\Operations
- * @property \ItvisionSy\PayFort\OperationData\Purchase $data
+ * @property \ItvisionSy\PayFort\Operations\Data\Purchase $data
  */
 class Purchase extends ServiceBasedOperation
 {
@@ -34,28 +33,19 @@ class Purchase extends ServiceBasedOperation
      */
     public function payfortURL()
     {
-        return $this->config->sandbox
-            ? "https://sbpaymentservices.payfort.com/FortAPI/paymentApi"
-            : "https://paymentservices.payfort.com/FortAPI/paymentApi";
+        return $this->config->sandbox ? "https://sbpaymentservices.payfort.com/FortAPI/paymentApi" : "https://paymentservices.payfort.com/FortAPI/paymentApi";
     }
 
-    public function execute()
+    protected function overrideRequestData()
     {
-        $data = $this->sign();
-        $result = $this->invokeApi($data);
-        json($result);
-        return $result;
+        return [
+            "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
+        ];
     }
 
-    public function sign()
+    protected function makeResponse(array $responseData)
     {
-        $data = [
-                "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
-                "command" => $this->command()
-            ] + $this->data->data() + Common::payfortEntries($this->config);
-        $data = Signature::forRequest($data, $this->config);
-        dd($data);
-        return $data;
+        return new \ItvisionSy\PayFort\Operations\Responses\Purchase($responseData);
     }
 
 }

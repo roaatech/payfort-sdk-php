@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Muhannad Shelleh <muhannad.shelleh@live.com>
@@ -20,7 +21,6 @@ abstract class ServiceBasedOperation extends Operation
      * @var OperationData
      */
     protected $data;
-
     //allow access to data property
     protected static $public = ['data'];
 
@@ -30,7 +30,8 @@ abstract class ServiceBasedOperation extends Operation
         $this->setData($data);
     }
 
-    protected function setData(OperationData $data){
+    protected function setData(OperationData $data)
+    {
         $data->validate();
         $this->data = $data;
     }
@@ -54,7 +55,6 @@ abstract class ServiceBasedOperation extends Operation
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // allow redirects
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); // The number of seconds to wait while trying to connect
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); //the payload
-
         //execute the request
         $response = curl_exec($ch);
 
@@ -73,10 +73,45 @@ abstract class ServiceBasedOperation extends Operation
         return $responseData;
     }
 
+    protected function finalRequestData()
+    {
+        $data = $this->overrideRequestData();
+        $data += ["command" => $this->command()];
+        $data += $this->data->data();
+        $data += Common::payfortEntries($this->config);
+        return $data;
+    }
+
     /**
      * The logic of the operation
      * @return mixed
      */
-    abstract public function execute();
+    public function execute()
+    {
+        $responseData = $this->invokeApi($this->sign());
+        return $this->makeResponse($responseData);
+    }
+
+    public function sign()
+    {
+        $data = $this->finalRequestData();
+        $data = Signature::forRequest($data, $this->config);
+        return $data;
+    }
+
+    /**
+     * The basic data
+     */
+    abstract protected function overrideRequestData();
+
+    /**
+     *
+     * @param array $responseData
+     * @return PayfortResponse
+     */
+    protected function makeResponse(array $responseData)
+    {
+        return new PayfortResponse($responseData);
+    }
 
 }
