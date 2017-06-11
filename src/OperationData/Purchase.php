@@ -32,8 +32,8 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
  * @property string $phoneNumber
  * @property string $settlementReference
  * @property string $returnUrl
- * @method string|Purchase merchantReference(string $set = null)
  * @property string $currency
+ * @method string|Purchase merchantReference(string $set = null)
  * @method string|Purchase amount(string $set = null)
  * @method string|Purchase customerEmail(string $set = null)
  * @method string|Purchase tokenName(string $set = null)
