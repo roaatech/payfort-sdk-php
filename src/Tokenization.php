@@ -8,6 +8,8 @@
 
 namespace ItvisionSy\PayFort;
 
+use ItvisionSy\PayFort\Response\PayfortResponse;
+
 class Tokenization extends Operation
 {
 

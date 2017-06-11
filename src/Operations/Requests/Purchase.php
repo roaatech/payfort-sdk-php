@@ -6,7 +6,7 @@
  * Time: 4:29 AM
  */
 
-namespace ItvisionSy\PayFort\Operations;
+namespace ItvisionSy\PayFort\Operations\Requests;
 
 use ItvisionSy\PayFort\AmountDecimals;
 use ItvisionSy\PayFort\Common;
@@ -53,8 +53,7 @@ class Purchase extends ServiceBasedOperation
                 "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
                 "command" => $this->command()
             ] + $this->data->data() + Common::payfortEntries($this->config);
-        $signature = Signature::forRequest($data, $this->config);
-        $data['signature'] = $signature;
+        $data = Signature::forRequest($data, $this->config);
         dd($data);
         return $data;
     }

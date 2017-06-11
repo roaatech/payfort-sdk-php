@@ -143,13 +143,13 @@ abstract class OperationData
      */
     public function validate()
     {
-        $emptyFields = array_filter($this->data, function ($value, $index) {
+        $emptyFields = array_filter($this->data, function ($value) {
             return empty($value);
         });
         if (count($emptyFields) > 0) {
             throw new InvalidDataException("Empty values are not accepted: " . join(", ", $emptyFields));
         }
-        $mandatorySet = count(static::$mandatoryFields) === count(array_intersect_key($this->data(), static::$mandatoryFields));
+        $mandatorySet = count(static::$mandatoryFields) === count(array_intersect_key($this->data(), array_flip(static::$mandatoryFields)));
         if ($mandatorySet !== true) {
             throw new InvalidDataException("All keys should be provided: " . join(", ", static::$mandatoryFields));
         }

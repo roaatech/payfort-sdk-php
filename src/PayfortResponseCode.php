@@ -6,9 +6,9 @@
  * Time: 2:26 PM
  */
 
-namespace ItvisionSy\PayFort\Response;
+namespace ItvisionSy\PayFort;
 
-class Code
+class PayfortResponseCode
 {
 
     protected $code;
@@ -59,11 +59,11 @@ class Code
     }
 
     /**
-     * @return Status
+     * @return PayfortResponseStatus
      */
     public function status(){
         $code = static::codeGetStatusCode($this->code);
-        return new Status($code);
+        return new PayfortResponseStatus($code);
     }
 
     protected static $codes = [

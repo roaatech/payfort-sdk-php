@@ -6,7 +6,7 @@
  * Time: 4:33 AM
  */
 
-namespace ItvisionSy\PayFort\OperationData;
+namespace ItvisionSy\PayFort\Operations\Data;
 
 use ItvisionSy\PayFort\OperationData;
 use ItvisionSy\PayFort\Exceptions\InvalidDataException;

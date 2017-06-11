@@ -6,9 +6,9 @@
  * Time: 2:10 PM
  */
 
-namespace ItvisionSy\PayFort\Response;
+namespace ItvisionSy\PayFort;
 
-class Status
+class PayfortResponseStatus
 {
 
     protected $code;
