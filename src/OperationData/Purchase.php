@@ -33,6 +33,7 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
  * @property string $settlementReference
  * @property string $returnUrl
  * @method string|Purchase merchantReference(string $set = null)
+ * @property string $currency
  * @method string|Purchase amount(string $set = null)
  * @method string|Purchase customerEmail(string $set = null)
  * @method string|Purchase tokenName(string $set = null)
@@ -49,6 +50,7 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
  * @method string|Purchase phoneNumber(string $set = null)
  * @method string|Purchase settlementReference(string $set = null)
  * @method string|Purchase returnUrl(string $set = null)
+ * @method string|Purchase currency(string $set = null)
  */
 class Purchase extends OperationData
 {
@@ -72,7 +74,8 @@ class Purchase extends OperationData
         "merchant_reference",
         "amount",
         "customer_email",
-        "token_name"
+        "token_name",
+        "currency"
     ];
 
     protected function validateRememberMe($value)
