@@ -8,6 +8,8 @@
 
 namespace ItvisionSy\PayFort\Operations;
 
+use ItvisionSy\PayFort\AmountDecimals;
+use ItvisionSy\PayFort\Common;
 use ItvisionSy\PayFort\ServiceBasedOperation;
 use ItvisionSy\PayFort\Signature;
 
@@ -47,9 +49,13 @@ class Purchase extends ServiceBasedOperation
 
     public function sign()
     {
-        $data = $this->data->data();
+        $data = [
+                "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
+                "command" => $this->command()
+            ] + $this->data->data() + Common::payfortEntries($this->config);
         $signature = Signature::forRequest($data, $this->config);
         $data['signature'] = $signature;
+        dd($data);
         return $data;
     }
 
