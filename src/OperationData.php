@@ -39,7 +39,7 @@ abstract class OperationData
     /**
      * @param $name
      * @param $value
-     * @return array
+     * @return $this|static|self|OperationData
      */
     protected function set($name, $value)
     {
@@ -53,7 +53,7 @@ abstract class OperationData
             $data[$key] = $value;
             $this->data = $data;
         }
-        return $data;
+        return $this;
     }
 
     /**
