@@ -30,6 +30,11 @@ abstract class ServiceBasedOperation extends Operation
         $this->setData($data);
     }
 
+    protected function setData(OperationData $data){
+        $data->validate();
+        $this->data = $data;
+    }
+
     protected function invokeApi(array $data)
     {
         //open connection
