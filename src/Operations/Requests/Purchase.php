@@ -16,35 +16,40 @@ use ItvisionSy\PayFort\ServiceBasedOperation;
  * Class Purchase
  * @package ItvisionSy\PayFort\Operations
  * @property \ItvisionSy\PayFort\Operations\Data\Purchase $data
+ * @method \ItvisionSy\PayFort\Operations\Responses\Purchase execute()
  */
-class Purchase extends ServiceBasedOperation
-{
+class Purchase extends ServiceBasedOperation {
 
     /**
      * @return string
      */
-    public function command()
-    {
+    public function command() {
         return "PURCHASE";
     }
 
     /**
      * @return string
      */
-    public function payfortURL()
-    {
+    public function payfortURL() {
         return $this->config->sandbox ? "https://sbpaymentservices.payfort.com/FortAPI/paymentApi" : "https://paymentservices.payfort.com/FortAPI/paymentApi";
     }
 
-    protected function overrideRequestData()
-    {
+    /**
+     *
+     * @return array
+     */
+    protected function overrideRequestData() {
         return [
             "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
         ];
     }
 
-    protected function makeResponse(array $responseData)
-    {
+    /**
+     *
+     * @param array $responseData
+     * @return \ItvisionSy\PayFort\Operations\Responses\Purchase
+     */
+    protected function makeResponse(array $responseData) {
         return new \ItvisionSy\PayFort\Operations\Responses\Purchase($responseData);
     }
 

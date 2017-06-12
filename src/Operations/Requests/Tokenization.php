@@ -6,9 +6,7 @@
  * Time: 10:02 AM
  */
 
-namespace ItvisionSy\PayFort;
-
-use ItvisionSy\PayFort\Response\PayfortResponse;
+namespace ItvisionSy\PayFort\Operations\Requests;
 
 class Tokenization extends Operation
 {

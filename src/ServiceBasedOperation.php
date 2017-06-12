@@ -94,9 +94,7 @@ abstract class ServiceBasedOperation extends Operation
 
     public function sign()
     {
-        $data = $this->finalRequestData();
-        $data = Signature::forRequest($data, $this->config);
-        return $data;
+        return Signature::forRequest($this->finalRequestData(), $this->config);
     }
 
     /**
