@@ -32,4 +32,26 @@ use ItvisionSy\PayFort\PayfortResponse;
 class Tokenization extends PayfortResponse
 {
 
+    public static function allowedKeys()
+    {
+        return [
+            "service_command",
+            "access_code",
+            "merchant_identifier",
+            "merchant_reference",
+            "language",
+            "expiry_date",
+            "card_number",
+            "card_security_code",
+            "signature",
+            "token_name",
+            "card_holder_name",
+            "remember_me",
+            "response_message",
+            "status",
+            "card_bin",
+            "return_url",
+        ];
+    }
+
 }

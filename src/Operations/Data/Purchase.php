@@ -55,29 +55,36 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
 class Purchase extends OperationData
 {
 
-    protected static $optionalFields = [
-        "payment_option",
-        "eci",
-        "order_description",
-        "customer_ip",
-        "customer_name",
-        "merchant_extra",
-        "merchant_extra2",
-        "merchant_extra3",
-        "merchant_extra4",
-        "remember_me",
-        "phone_number",
-        "settlement_reference",
-        "return_url",
-        "card_security_code"
-    ];
-    protected static $mandatoryFields = [
-        "merchant_reference",
-        "amount",
-        "customer_email",
-        "token_name",
-        "currency"
-    ];
+    public static function optionalFields()
+    {
+        return [
+            "payment_option",
+            "eci",
+            "order_description",
+            "customer_ip",
+            "customer_name",
+            "merchant_extra",
+            "merchant_extra2",
+            "merchant_extra3",
+            "merchant_extra4",
+            "remember_me",
+            "phone_number",
+            "settlement_reference",
+            "return_url",
+            "card_security_code"
+        ];
+    }
+
+    public static function mandatoryFields()
+    {
+        return [
+            "merchant_reference",
+            "amount",
+            "customer_email",
+            "token_name",
+            "currency"
+        ];
+    }
 
     protected function validateRememberMe($value)
     {

@@ -25,7 +25,7 @@ class Authorize extends ServiceBasedOperation
      */
     public function command()
     {
-        return "AUTHORIZE";
+        return "AUTHORIZATION";
     }
 
     /**

@@ -11,62 +11,6 @@ namespace ItvisionSy\PayFort;
 class PayfortResponseCode
 {
 
-    protected $code;
-
-    public function __construct($code)
-    {
-        $this->code = $code;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function name()
-    {
-        return static::codeToName((int)$this->code);
-    }
-
-    /**
-     * @return string
-     */
-    public function code()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSuccess()
-    {
-        return static::codeIsSuccess((int)$this->code);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPending()
-    {
-        return static::codeIsPending((int)$this->code);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFailure()
-    {
-        return static::codeIsFailure((int)$this->code);
-    }
-
-    /**
-     * @return PayfortResponseStatus
-     */
-    public function status()
-    {
-        $code = static::codeGetStatusCode($this->code);
-        return new PayfortResponseStatus($code);
-    }
-
     protected static $codes = [
         0 => "Success.",
         1 => "Missing parameter.",
@@ -169,6 +113,62 @@ class PayfortResponseCode
 
     protected static $successCodes = [0, 62, 63];
     protected static $pendingCodes = [64, 65];
+
+    protected $code;
+
+    public function __construct($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function name()
+    {
+        return static::codeToName((int)$this->code);
+    }
+
+    /**
+     * @return string
+     */
+    public function code()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return static::codeIsSuccess($this->code);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return static::codeIsPending($this->code);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFailure()
+    {
+        return static::codeIsFailure($this->code);
+    }
+
+    /**
+     * @return PayfortResponseStatus
+     */
+    public function status()
+    {
+        $code = static::codeGetStatusCode($this->code);
+        return new PayfortResponseStatus($code);
+    }
 
     /**
      * The response code is made up of two parts: status (2 digits) and result (3 digits). We need the digits.

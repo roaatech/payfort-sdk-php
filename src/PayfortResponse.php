@@ -3,6 +3,8 @@
 namespace ItvisionSy\PayFort;
 
 use Exception;
+use ItvisionSy\PayFort\Contracts\IDataContainer;
+use ItvisionSy\PayFort\Contracts\TDataContainer;
 
 /**
  * Class Response
@@ -44,31 +46,10 @@ use Exception;
  * @property string response_message
  * @property string card_bin
  */
-class PayfortResponse implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, \Countable
+class PayfortResponse implements IDataContainer
 {
 
-    /**
-     * @var array
-     */
-    protected $data;
-
-    /**
-     * PayfortResponse constructor.
-     * @param array $data
-     */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function __get($name)
-    {
-        return $this->offsetExists($name) ? $this->offsetGet($name) : null;
-    }
+    use TDataContainer;
 
     /**
      * @return PayfortResponseCode
@@ -86,40 +67,6 @@ class PayfortResponse implements \ArrayAccess, \IteratorAggregate, \JsonSerializ
         return new PayfortResponseStatus($this->data['status']);
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function raw()
-    {
-        return $this->data;
-    }
-
-    public function count()
-    {
-        return count($this->data);
-    }
-
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->data);
-    }
-
-    public function jsonSerialize()
-    {
-        return json_encode($this->data);
-    }
-
-    public function offsetExists($offset)
-    {
-        return array_key_exists($offset, $this->data);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->data[$offset];
-    }
-
     public function offsetSet($offset, $value)
     {
         throw new Exception("Readonly array access");
@@ -128,6 +75,57 @@ class PayfortResponse implements \ArrayAccess, \IteratorAggregate, \JsonSerializ
     public function offsetUnset($offset)
     {
         throw new Exception("Readonly array access");
+    }
+
+    public static function allowedKeys()
+    {
+        return [
+            "command",
+            "access_code",
+            "merchant_identifier",
+            "merchant_reference",
+            "amount",
+            "currency",
+            "language",
+            "customer_email",
+            "token_name",
+            "signature",
+            "fort_id",
+            "payment_option",
+            "eci",
+            "order_description",
+            "authorization_code",
+            "response_code",
+            "customer_ip",
+            "customer_name",
+            "merchant_extra",
+            "merchant_extra1",
+            "merchant_extra2",
+            "merchant_extra3",
+            "merchant_extra4",
+            "expiry_date",
+            "card_number",
+            "status",
+            "card_holder_name",
+            "3ds_url",
+            "remember_me",
+            "phone_number",
+            "settlement_reference",
+            "return_url",
+            "service_command",
+            "card_security_code",
+            "response_message",
+            "card_bin"
+        ];
+    }
+
+    public static function mandatoryFields()
+    {
+        return [];
+    }
+
+    public static function isKeyAllowed($key) {
+        return true;
     }
 
 }

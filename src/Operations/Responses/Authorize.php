@@ -45,7 +45,7 @@ use ItvisionSy\PayFort\PayfortResponse;
  * @property string settlement_reference
  * @property string return_url
  */
-class Purchase extends PayfortResponse
+class Authorize extends PayfortResponse
 {
 
     public static function allowedKeys()
