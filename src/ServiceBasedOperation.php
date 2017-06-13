@@ -9,6 +9,8 @@
 
 namespace ItvisionSy\PayFort;
 
+use ItvisionSy\PayFort\AmountDecimals;
+
 /**
  * Class ServiceBasedOperation
  * @package ItvisionSy\PayFort
@@ -98,11 +100,6 @@ abstract class ServiceBasedOperation extends Operation
     }
 
     /**
-     * The basic data
-     */
-    abstract protected function overrideRequestData();
-
-    /**
      *
      * @param array $responseData
      * @return PayfortResponse
@@ -110,6 +107,25 @@ abstract class ServiceBasedOperation extends Operation
     protected function makeResponse(array $responseData)
     {
         return new PayfortResponse($responseData);
+    }
+
+    /**
+     * @return string
+     */
+    public function payfortURL()
+    {
+        return $this->config->sandbox ? "https://sbpaymentservices.payfort.com/FortAPI/paymentApi" : "https://paymentservices.payfort.com/FortAPI/paymentApi";
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function overrideRequestData()
+    {
+        return [
+            "amount" => AmountDecimals::forRequest($this->data->amount, $this->data->currency),
+        ];
     }
 
 }

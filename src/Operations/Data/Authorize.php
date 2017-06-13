@@ -12,7 +12,7 @@ use ItvisionSy\PayFort\OperationData;
 use ItvisionSy\PayFort\Exceptions\InvalidDataException;
 
 /**
- * Class Purchase
+ * Class Authorize
  * @package ItvisionSy\PayFort\OperationData
  *
  * @property string $merchantReference
@@ -33,26 +33,26 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
  * @property string $settlementReference
  * @property string $returnUrl
  * @property string $currency
- * @method string|Purchase merchantReference(string $set = null)
- * @method string|Purchase amount(string $set = null)
- * @method string|Purchase customerEmail(string $set = null)
- * @method string|Purchase tokenName(string $set = null)
- * @method string|Purchase paymentOption(string $set = null)
- * @method string|Purchase eci(string $set = null)
- * @method string|Purchase orderDescription(string $set = null)
- * @method string|Purchase customerIp(string $set = null)
- * @method string|Purchase customerName(string $set = null)
- * @method string|Purchase merchantExtra(string $set = null)
- * @method string|Purchase merchantExtra2(string $set = null)
- * @method string|Purchase merchantExtra3(string $set = null)
- * @method string|Purchase merchantExtra4(string $set = null)
- * @method boolean|Purchase rememberMe(boolean $set = null)
- * @method string|Purchase phoneNumber(string $set = null)
- * @method string|Purchase settlementReference(string $set = null)
- * @method string|Purchase returnUrl(string $set = null)
- * @method string|Purchase currency(string $set = null)
+ * @method string|Authorize merchantReference(string $set = null)
+ * @method string|Authorize amount(string $set = null)
+ * @method string|Authorize customerEmail(string $set = null)
+ * @method string|Authorize tokenName(string $set = null)
+ * @method string|Authorize paymentOption(string $set = null)
+ * @method string|Authorize eci(string $set = null)
+ * @method string|Authorize orderDescription(string $set = null)
+ * @method string|Authorize customerIp(string $set = null)
+ * @method string|Authorize customerName(string $set = null)
+ * @method string|Authorize merchantExtra(string $set = null)
+ * @method string|Authorize merchantExtra2(string $set = null)
+ * @method string|Authorize merchantExtra3(string $set = null)
+ * @method string|Authorize merchantExtra4(string $set = null)
+ * @method boolean|Authorize rememberMe(boolean $set = null)
+ * @method string|Authorize phoneNumber(string $set = null)
+ * @method string|Authorize settlementReference(string $set = null)
+ * @method string|Authorize returnUrl(string $set = null)
+ * @method string|Authorize currency(string $set = null)
  */
-class Purchase extends OperationData
+class Authorize extends OperationData
 {
 
     protected static $optionalFields = [

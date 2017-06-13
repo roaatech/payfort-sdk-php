@@ -29,6 +29,7 @@ use ItvisionSy\PayFort\PayfortResponse;
  * @property string card_bin
  * @property string return_url
  */
-class Tokenization extends PayfortResponse {
+class Tokenization extends PayfortResponse
+{
 
 }

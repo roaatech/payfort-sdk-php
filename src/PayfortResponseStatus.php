@@ -23,7 +23,7 @@ class PayfortResponseStatus
      */
     public function name()
     {
-        return static::codeToName((int) $this->code);
+        return static::codeToName((int)$this->code);
     }
 
     /**
@@ -39,7 +39,7 @@ class PayfortResponseStatus
      */
     public function isSuccess()
     {
-        return static::codeIsSuccess((int) $this->code);
+        return static::codeIsSuccess((int)$this->code);
     }
 
     /**
@@ -47,7 +47,7 @@ class PayfortResponseStatus
      */
     public function isPending()
     {
-        return static::codeIsPending((int) $this->code);
+        return static::codeIsPending((int)$this->code);
     }
 
     /**
@@ -55,7 +55,7 @@ class PayfortResponseStatus
      */
     public function isFailure()
     {
-        return static::codeIsFailure((int) $this->code);
+        return static::codeIsFailure((int)$this->code);
     }
 
     protected static $statuses = [

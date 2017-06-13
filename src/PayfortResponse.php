@@ -90,35 +90,43 @@ class PayfortResponse implements \ArrayAccess, \IteratorAggregate, \JsonSerializ
      *
      * @return array
      */
-    public function raw(){
+    public function raw()
+    {
         return $this->data;
     }
 
-    public function count() {
+    public function count()
+    {
         return count($this->data);
     }
 
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->data);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return json_encode($this->data);
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return array_key_exists($offset, $this->data);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->data[$offset];
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         throw new Exception("Readonly array access");
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         throw new Exception("Readonly array access");
     }
 

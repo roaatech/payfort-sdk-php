@@ -8,6 +8,10 @@
 
 namespace ItvisionSy\PayFort\Operations\Requests;
 
+use ItvisionSy\PayFort\Config;
+use ItvisionSy\PayFort\Operation;
+use ItvisionSy\PayFort\Signature;
+
 class Tokenization extends Operation
 {
 

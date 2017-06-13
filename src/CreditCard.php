@@ -34,9 +34,6 @@ class CreditCard extends BaseCreditCard
         if (!$cardExpiryDate && $cardExpiryMonth && $cardExpiryYear) {
             $cardExpiryDate = $cardExpiryYear . $cardExpiryMonth;
         }
-        if (!$cardExpiryDate || !$cardHolderName || !$cardNumber || !$cardCVV2) {
-            return null;
-        }
         return static::make($cardNumber, $cardHolderName, $cardExpiryDate, $cardCVV2);
     }
 

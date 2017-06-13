@@ -9,16 +9,15 @@
 
 namespace ItvisionSy\PayFort\Operations\Requests;
 
-use ItvisionSy\PayFort\AmountDecimals;
 use ItvisionSy\PayFort\ServiceBasedOperation;
 
 /**
- * Class Purchase
+ * Class Authorize
  * @package ItvisionSy\PayFort\Operations
- * @property \ItvisionSy\PayFort\Operations\Data\Purchase $data
- * @method \ItvisionSy\PayFort\Operations\Responses\Purchase execute()
+ * @property \ItvisionSy\PayFort\Operations\Data\Authorize $data
+ * @method \ItvisionSy\PayFort\Operations\Responses\Authorize execute()
  */
-class Purchase extends ServiceBasedOperation
+class Authorize extends ServiceBasedOperation
 {
 
     /**
@@ -26,17 +25,17 @@ class Purchase extends ServiceBasedOperation
      */
     public function command()
     {
-        return "PURCHASE";
+        return "AUTHORIZE";
     }
 
     /**
      *
      * @param array $responseData
-     * @return \ItvisionSy\PayFort\Operations\Responses\Purchase
+     * @return \ItvisionSy\PayFort\Operations\Responses\Authorize
      */
     protected function makeResponse(array $responseData)
     {
-        return new \ItvisionSy\PayFort\Operations\Responses\Purchase($responseData);
+        return new \ItvisionSy\PayFort\Operations\Responses\Authorize($responseData);
     }
 
 }
