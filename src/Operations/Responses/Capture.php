@@ -26,7 +26,7 @@ use ItvisionSy\PayFort\PayfortResponse;
  * @property string $response_message
  * @property string $status
  */
-class Refund extends PayfortResponse {
+class Capture extends PayfortResponse {
 
     public static function allowedKeys() {
         return [

@@ -26,7 +26,7 @@ use ItvisionSy\PayFort\PayfortResponse;
  * @property string $response_message
  * @property string $status
  */
-class Refund extends PayfortResponse {
+class VoidAuthorization extends PayfortResponse {
 
     public static function allowedKeys() {
         return [
@@ -34,8 +34,6 @@ class Refund extends PayfortResponse {
             "access_code",
             "merchant_identifier",
             "merchant_reference",
-            "amount",
-            "currency",
             "language",
             "signature",
             "fort_id",

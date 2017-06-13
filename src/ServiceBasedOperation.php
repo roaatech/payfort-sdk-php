@@ -40,6 +40,7 @@ abstract class ServiceBasedOperation extends Operation
 
     protected function invokeApi(array $data)
     {
+        
         //open connection
         $ch = curl_init();
 

@@ -10,7 +10,7 @@ namespace ItvisionSy\PayFort\Operations\Requests;
 
 use ItvisionSy\PayFort\ServiceBasedOperation;
 
-class Refund extends ServiceBasedOperation
+class VoidAuthorization extends ServiceBasedOperation
 {
 
     /**
@@ -18,17 +18,21 @@ class Refund extends ServiceBasedOperation
      */
     public function command()
     {
-        return "REFUND";
+        return "VOID_AUTHORIZATION";
     }
 
     /**
      *
      * @param array $responseData
-     * @return \ItvisionSy\PayFort\Operations\Responses\Refund
+     * @return \ItvisionSy\PayFort\Operations\Responses\VoidAuthorization
      */
     protected function makeResponse(array $responseData)
     {
-        return new \ItvisionSy\PayFort\Operations\Responses\Refund($responseData);
+        return new \ItvisionSy\PayFort\Operations\Responses\VoidAuthorization($responseData);
+    }
+
+    protected function overrideRequestData() {
+        return [];
     }
 
 }

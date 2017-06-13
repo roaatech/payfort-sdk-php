@@ -12,26 +12,20 @@ namespace ItvisionSy\PayFort\Operations\Data;
 use ItvisionSy\PayFort\OperationData;
 
 /**
- * Class Refund
+ * Class Void
  * @package ItvisionSy\PayFort\Operations\Data
  * @property string $merchant_reference
- * @property string $amount
- * @property string $currency
  * @property string $fort_id
  * @property string $order_description
- * @method string|Refund merchant_reference(string $set=null)
- * @method string|Refund amount(string $set=null)
- * @method string|Refund currency(string $set=null)
- * @method string|Refund fort_id(string $set=null)
- * @method string|Refund order_description(string $set=null)
+ * @method string|VoidAuthorization merchant_reference(string $set=null)
+ * @method string|VoidAuthorization fort_id(string $set=null)
+ * @method string|VoidAuthorization order_description(string $set=null)
  */
-class Refund extends OperationData {
+class VoidAuthorization extends OperationData {
 
     public static function mandatoryFields() {
         return [
             "merchant_reference",
-            "amount",
-            "currency"
         ];
     }
 

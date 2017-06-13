@@ -10,7 +10,7 @@ namespace ItvisionSy\PayFort\Operations\Requests;
 
 use ItvisionSy\PayFort\ServiceBasedOperation;
 
-class Refund extends ServiceBasedOperation
+class Capture extends ServiceBasedOperation
 {
 
     /**
@@ -18,17 +18,17 @@ class Refund extends ServiceBasedOperation
      */
     public function command()
     {
-        return "REFUND";
+        return "CAPTURE";
     }
 
     /**
      *
      * @param array $responseData
-     * @return \ItvisionSy\PayFort\Operations\Responses\Refund
+     * @return \ItvisionSy\PayFort\Operations\Responses\Capture
      */
     protected function makeResponse(array $responseData)
     {
-        return new \ItvisionSy\PayFort\Operations\Responses\Refund($responseData);
+        return new \ItvisionSy\PayFort\Operations\Responses\Capture($responseData);
     }
 
 }
