@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Muhannad Shelleh <muhannad.shelleh@live.com>
@@ -12,13 +13,13 @@ use ItvisionSy\PayFort\Config;
 use ItvisionSy\PayFort\Operation;
 use ItvisionSy\PayFort\Signature;
 
-class Tokenization extends Operation
-{
+class Tokenization extends Operation {
 
     /**
      * @var string
      */
     protected $merchantReference;
+
     /**
      * @var string|null
      */
@@ -30,8 +31,7 @@ class Tokenization extends Operation
      * @param string|null $returnUrl The URL to return back to after tokenization done
      * @param Config|null $config PayFort config object
      */
-    public function __construct($merchantReference, $returnUrl = null, Config $config = null)
-    {
+    public function __construct($merchantReference, $returnUrl = null, Config $config = null) {
         parent::__construct($config);
         $this->merchantReference = $merchantReference;
         $this->returnUrl = $returnUrl;
@@ -40,8 +40,7 @@ class Tokenization extends Operation
     /**
      * @return array
      */
-    public function sign()
-    {
+    public function sign() {
         $data = $this->payfortEntries();
         return Signature::forRequest($data, $this->config());
     }
@@ -49,19 +48,17 @@ class Tokenization extends Operation
     /**
      * @return string
      */
-    public function command()
-    {
+    public function command() {
         return "TOKENIZATION";
     }
 
     /**
      * @return array
      */
-    protected function payfortEntries()
-    {
+    protected function payfortEntries() {
         $entries = [
             'service_command' => $this->command(),
-            'merchant_reference' => $this->merchantReference
+            'merchant_reference' => $this->merchantReference,
         ];
         if ($this->returnUrl) {
             $entries['return_url'] = $this->returnUrl;
@@ -69,11 +66,8 @@ class Tokenization extends Operation
         return $entries;
     }
 
-    public function payfortURL()
-    {
-        return $this->config->sandbox
-            ? "https://sbcheckout.payfort.com/FortAPI/paymentPage"
-            : "https://checkout.payfort.com/FortAPI/paymentPage";
+    public function payfortURL() {
+        return $this->config->sandbox ? "https://sbcheckout.payfort.com/FortAPI/paymentPage" : "https://checkout.payfort.com/FortAPI/paymentPage";
     }
 
 }

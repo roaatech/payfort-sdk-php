@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Muhannad Shelleh <muhannad.shelleh@live.com>
@@ -52,11 +53,9 @@ use ItvisionSy\PayFort\Exceptions\InvalidDataException;
  * @method string|Purchase returnUrl(string $set = null)
  * @method string|Purchase currency(string $set = null)
  */
-class Purchase extends OperationData
-{
+class Purchase extends OperationData {
 
-    public static function optionalFields()
-    {
+    public static function optionalFields() {
         return [
             "payment_option",
             "eci",
@@ -75,8 +74,7 @@ class Purchase extends OperationData
         ];
     }
 
-    public static function mandatoryFields()
-    {
+    public static function mandatoryFields() {
         return [
             "merchant_reference",
             "amount",
@@ -86,29 +84,25 @@ class Purchase extends OperationData
         ];
     }
 
-    protected function validateRememberMe($value)
-    {
-        return !!$value;
+    protected function validateRememberMe($value) {
+        return !!$value ? "YES" : null;
     }
 
-    protected function validateReturnUrl($value)
-    {
+    protected function validateReturnUrl($value) {
         if (!filter_var($value, FILTER_VALIDATE_URL)) {
             throw new InvalidDataException("Return URL should be URL.");
         }
         return $value;
     }
 
-    protected function validateCustomerEmail($value)
-    {
+    protected function validateCustomerEmail($value) {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidDataException("Customer email should be a valid email.");
         }
         return $value;
     }
 
-    protected function validatePhoneNumber($value)
-    {
+    protected function validatePhoneNumber($value) {
         if (!preg_match("/^\+[0-9]+([\- ][0-9]+)+$/", $value)) {
             throw new InvalidDataException("Phone number should be in the international format.");
         }

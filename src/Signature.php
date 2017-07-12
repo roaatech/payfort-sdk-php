@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Muhannad Shelleh <muhannad.shelleh@live.com>
@@ -8,17 +9,15 @@
 
 namespace ItvisionSy\PayFort;
 
-class Signature
-{
+class Signature {
 
     /**
      * @param array $data
      * @param Config $config
      * @return array
      */
-    public static function forRequest(array $data, Config $config)
-    {
-        $data = [] + $data;
+    public static function forRequest(array $data, Config $config = null) {
+        $data = [] + $data; //clone the data to a new array
         return static::sign($data, $config, true);
     }
 
@@ -27,9 +26,8 @@ class Signature
      * @param Config|null $config
      * @return array
      */
-    public static function forResponse(array $data, Config $config = null)
-    {
-        $data = [] + $data;
+    public static function forResponse(array $data, Config $config = null) {
+        $data = [] + $data; //clone the data to a new array
         return static::sign($data, $config, false);
     }
 
@@ -39,8 +37,8 @@ class Signature
      * @param bool $forRequest
      * @return array
      */
-    public static function sign(array &$data, Config $config, $forRequest = true)
-    {
+    public static function sign(array &$data, Config $config = null, $forRequest = true) {
+        $config = $config ?: Config::make();
         $data = $data + Common::payfortEntries($config);
         $shaPhrase = $forRequest ? $config->shaRequestPhrase : $config->shaResponsePhrase;
         $data['signature'] = static::generateSignature($data, $config->shaType, $shaPhrase);
@@ -53,8 +51,7 @@ class Signature
      * @param string $shaPhrase
      * @return string
      */
-    protected static function generateSignature(array $signatureData, $shaType, $shaPhrase)
-    {
+    protected static function generateSignature(array $signatureData, $shaType, $shaPhrase) {
         ksort($signatureData);
         $shaString = $shaPhrase;
         foreach ($signatureData as $key => $value) {
@@ -62,6 +59,8 @@ class Signature
         }
         $shaString .= $shaPhrase;
         $signature = hash($shaType, $shaString);
+//        json([$signatureData, $shaString, $signature]);
         return $signature;
     }
+
 }

@@ -47,6 +47,7 @@ class Tokenization extends PayfortResponse
             "token_name",
             "card_holder_name",
             "remember_me",
+            "response_code",
             "response_message",
             "status",
             "card_bin",

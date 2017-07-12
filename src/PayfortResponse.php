@@ -46,39 +46,33 @@ use ItvisionSy\PayFort\Contracts\TDataContainer;
  * @property string response_message
  * @property string card_bin
  */
-class PayfortResponse implements IDataContainer
-{
+class PayfortResponse implements IDataContainer {
 
     use TDataContainer;
 
     /**
      * @return PayfortResponseCode
      */
-    public function code()
-    {
+    public function code() {
         return new PayfortResponseCode($this->data['response_code']);
     }
 
     /**
      * @return PayfortResponseStatus
      */
-    public function status()
-    {
+    public function status() {
         return new PayfortResponseStatus($this->data['status']);
     }
 
-    public function offsetSet($offset, $value)
-    {
+    public function offsetSet($offset, $value) {
         throw new Exception("Readonly array access");
     }
 
-    public function offsetUnset($offset)
-    {
+    public function offsetUnset($offset) {
         throw new Exception("Readonly array access");
     }
 
-    public static function allowedKeys()
-    {
+    public static function allowedKeys() {
         return [
             "command",
             "access_code",
@@ -115,17 +109,45 @@ class PayfortResponse implements IDataContainer
             "service_command",
             "card_security_code",
             "response_message",
+            "response_code",
             "card_bin"
         ];
     }
 
-    public static function mandatoryFields()
-    {
+    public static function mandatoryFields() {
         return [];
     }
 
     public static function isKeyAllowed($key) {
         return true;
+    }
+
+    protected function filterResponseDataForSignature(array $data) {
+        return array_filter($data, function($value, $key) {
+            return array_search($key, $this->allowedKeys()) !== false && $key !== "signature";
+        }, ARRAY_FILTER_USE_BOTH);
+    }
+
+    /**
+     *
+     * @param \ItvisionSy\PayFort\Config $config
+     * @return string
+     */
+    public function signResponseData(Config $config = null) {
+        $dataToSign = $this->filterResponseDataForSignature($this->data());
+        $signedData = Signature::forResponse($dataToSign, $config);
+        return $signedData["signature"];
+    }
+
+    /**
+     *
+     * @param \ItvisionSy\PayFort\Config $config
+     * @return boolean
+     */
+    public function isResponseAuthentic(Config $config = null) {
+        $signed = $this->signResponseData($config);
+        $sent = $this->signature;
+        return $signed === $sent;
     }
 
 }

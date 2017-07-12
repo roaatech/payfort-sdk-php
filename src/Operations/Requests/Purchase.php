@@ -9,7 +9,6 @@
 
 namespace ItvisionSy\PayFort\Operations\Requests;
 
-use ItvisionSy\PayFort\AmountDecimals;
 use ItvisionSy\PayFort\ServiceBasedOperation;
 
 /**
