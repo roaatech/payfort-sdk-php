@@ -235,7 +235,7 @@ class Config
     protected static function validateArrayKeysSet(array $array)
     {
         foreach ($array as $key => $value) {
-            if (!$value || empty($value) || !isset($value)) {
+            if (!isset($value) || $value === null || $value === '') {
                 return $key;
             }
         }
