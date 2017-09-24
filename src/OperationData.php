@@ -53,4 +53,16 @@ abstract class OperationData implements IDataContainer
         throw new Exception("Readonly array access");
     }
 
+
+    /**
+     *
+     * @param callable $modifier a callback functions will receive three values: &$value, $key, and &$array
+     */
+    public function applyModifier(callable $modifier)
+    {
+        $data = $this->data;
+        array_walk($data, $modifier, $data);
+        $this->data = $data;
+    }
+
 }
